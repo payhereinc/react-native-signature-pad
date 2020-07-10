@@ -25,7 +25,18 @@ var content = (penColor, backgroundColor, dataURL) => `
       var signaturePad = new SignaturePad(signaturePadCanvas, {
         penColor: '${penColor || 'black'}',
         backgroundColor: '${backgroundColor || 'white'}',
-        onEnd: function() { finishedStroke(signaturePad.toDataURL()); }
+        onEnd: function() { 
+          
+          var resizedCanvas = document.createElement("canvas");
+          var resizedContext = resizedCanvas.getContext("2d");
+          resizedCanvas.width = "128";
+          resizedCanvas.height = "64";
+          resizedContext.drawImage(signaturePadCanvas, 0, 0, 128, 64);
+          var myResizedData = resizedCanvas.toDataURL('image/jpeg');
+          
+          finishedStroke(myResizedData); 
+          // finishedStroke(signaturePad.toDataURL('image/jpeg')); 
+        }
       });
       /* signaturePad.translateMouseCoordinates = function (point) {
         var translatedY = point.x;
